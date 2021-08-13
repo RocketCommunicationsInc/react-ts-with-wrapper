@@ -1,3 +1,6 @@
+// @import "./_variables.scss";
+// @import "../node_modules/astro-in-react/dist/react-component-lib/variables.scss";
+// @use '/node_modules/astro-in-react/dist/react-component-lib/variables';
 .App {
   text-align: center;
 }
@@ -35,4 +38,21 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.default-form {
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .rux-but {
+    margin-top: 3%;
+  }
+}
+.formik-form {
+  padding: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
