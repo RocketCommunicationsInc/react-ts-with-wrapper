@@ -8,6 +8,9 @@ import {
   RuxRadio,
   RuxPushButton,
   RuxCheckbox,
+  RuxSlider,
+  RuxSwitch,
+  RuxSelect,
 } from "astro-in-react";
 
 const Form = () => {
@@ -17,12 +20,15 @@ const Form = () => {
   const [radioVal, setRadioVal] = useState<string>("");
   const [pushButton, setPushButton] = useState<string>("");
   const [checkboxVal, setCheckboxVal] = useState<string>("");
+  const [sliderVal, setSliderVal] = useState<number>();
+  const [switchVal, setSwitchVal] = useState<string>("");
+  const [selectVal, setSelectVal] = useState("");
 
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
     return alert(
       `Email: ${email} \n Pw: ${pw} \n Textarea: ${textarea} \n RadioVal: ${radioVal} \n PushButton: ${pushButton}
-      \n Checkbox: ${checkboxVal}
+      \n Checkbox: ${checkboxVal} \n SliderVal: ${sliderVal} \n SwitchVal: ${switchVal} \n SelectVal: ${selectVal}
       `
     );
   };
@@ -35,21 +41,8 @@ const Form = () => {
           small="true"
           type="email"
           placeholder="zelda@hyrule.com"
-          onSubmit={handleSubmit}
-          //* This works too
-          // onInput={(e: Event) => {
-          //   const target = e.target as HTMLInputElement;
-          //   console.log(target.value, "TARGE VAL");
-          //   setEmail(target.value);
-          // }}
-          onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setEmail(e.target.value);
-          }}
-          //! onChange isn't working.
-          //! In storybook actions, rux-input gets fired while typing,
-          //! and rux-change gets fired when you click away.
-          onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-            setEmail(ev.target.value)
+          onRux-change={(e: React.ChangeEvent<HTMLRuxInputFieldElement>) =>
+            setEmail(e.target.value)
           }
         ></RuxInputField>
 
@@ -58,7 +51,6 @@ const Form = () => {
           type="password"
           name="password"
           onChange={(e) => setPw(e.target.value)}
-          // onInput={(e) => setPw(e.target.value)}
         ></input>
         <RuxTextarea
           help-text="Help Text"
@@ -86,37 +78,53 @@ const Form = () => {
           </RuxRadio>
         </RuxRadioGroup>
         <br />
-        {/* Push button once clicked, doesn't remove itself from state if clicked agian to off. */}
         <RuxPushButton
           label="Push Button"
           name="pushbutton"
           value="pushbutton"
-          onInput={(e: React.ChangeEvent<HTMLRuxPushButtonElement>) =>
-            setPushButton(e.target.value)
+          onRux-change={(e: React.ChangeEvent<HTMLRuxPushButtonElement>) =>
+            setPushButton(e.target.checked ? e.target.value : "")
           }
         />
         <br />
         <RuxCheckbox
           name="checkbox"
           value="checkbox"
-          onInput={(e: React.ChangeEvent<HTMLRuxCheckboxElement>) => {
-            console.log("OnINput!");
-            console.log(e.target, "TARGET");
-            // console.log(e.target.value, "VAL!");
-            console.log(e.target.checked, "CHECKED");
-            setCheckboxVal(e.target.value);
+          onRux-change={(e: React.ChangeEvent<HTMLRuxCheckboxElement>) => {
+            setCheckboxVal(e.target.checked ? e.target.value : "");
           }}
-          // onClick={(e: React.MouseEvent<HTMLRuxCheckboxElement>) => {
-          //   console.log("onClick!");
-          //   const target = e.target as HTMLInputElement;
-          //   setCheckboxVal(target.value);
-          // }}
         >
           Checkbox
         </RuxCheckbox>
+        <br />
+        {/*! Slider hasn't been merged yet. */}
+        {/* <RuxSlider
+          onRux-change={(e: React.ChangeEvent<HTMLRuxSliderElement>) => {
+            setSliderVal(e.target.value);
+          }}
+        /> */}
+        <RuxSwitch
+          value="switch"
+          onRux-change={(e: React.ChangeEvent<HTMLRuxSwitchElement>) =>
+            setSwitchVal(e.target.checked ? e.target.value : "")
+          }
+        />
+        <br />
+        <RuxSelect
+          label="Select Menu"
+          name="select"
+          onRux-change={(e: any) => console.log(e)}
+        >
+          <option value="opt">Select Something</option>
+          <optgroup label="Group 1">
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </optgroup>
+        </RuxSelect>
         <RuxButton
           onClick={(e: React.MouseEvent) => handleSubmit(e)}
           className="rux-but"
+          icon="check"
         >
           Submit
         </RuxButton>
